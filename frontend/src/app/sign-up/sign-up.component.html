@@ -1,0 +1,23 @@
+<div class="post">
+<form action="#" method="post">
+    <h2>Sign Up</h2>
+    <p>{{errorMessage}}</p>
+      <p>
+        <label for="password" class="floatLabel">Name</label>
+        <input id="Email" name="username"  type="text" [(ngModel)]="username" (ngModelChange)="change($event)">
+      </p>
+      
+      <p>
+        <label for="Email" class="floatLabel">Email</label>
+        <input id="Email" name="Email" type="text"  [(ngModel)]="email" (ngModelChange)="change($event)">
+      </p>
+      <p>
+        <label for="password" class="floatLabel">Password</label>
+        <input id="password" name="password"  type="password" [(ngModel)]="password" (ngModelChange)="change($event)">
+      </p>
+      <p>
+        <input type="submit" name="submit"value="Create My Account" id="submit" (click)="register()">
+      </p>
+      <p style="text-align: center"><a  class="login" (click)="login()">Login</a></p>
+</form>
+</div>

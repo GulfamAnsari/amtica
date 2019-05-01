@@ -1,0 +1,13 @@
+<div class="login">
+    <div class="login-page">
+        <div class="form">
+          <form class="login-form">
+            <h3>Login <p [hidden]="!errorMessage">{{errorMessage}}</p></h3>
+            <input type="email" name="email"placeholder="Your email" [(ngModel)]="email">
+            <input type="password" name="password"placeholder="Password" [(ngModel)]="password">
+            <button (click)="login()">login</button>
+            <p class="message">Not registered? <a (click)="signup()" >Create an account</a></p>
+          </form>
+        </div>
+      </div>
+</div>
