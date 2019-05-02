@@ -34,6 +34,10 @@ app.post('/signup', (req, res) => {
 
 function connectMongoDB(req, res) {
     var url = "mongodb://localhost:27017/data";
+    if (process.env.PASSWORD) {
+        const password = encodeURIComponent(process.env.PASSWORD);
+        url = 'mongodb+srv://gulfam:' + password + '@cluster0-eqhd9.mongodb.net/test?retryWrites=true';
+    }
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         if (req.url == '/login') {
