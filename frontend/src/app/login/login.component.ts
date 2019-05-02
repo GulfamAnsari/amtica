@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  private login() {
+  public login() {
     this.loginService.login({
       email: this.email,
       password: this.password
