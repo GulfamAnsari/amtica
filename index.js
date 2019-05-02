@@ -10,16 +10,16 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // serving angular files
-app.use(express.static('angular-node'));
+app.use(express.static('public'));
 app.get('/', (req, response) => {
-    fs.readFile("angular-node/index.html", (err, data) => {
+    fs.readFile("public/index.html", (err, data) => {
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.write(data);
         response.end(data);
     });
 });
 
-var port = 4100;
+const PORT = process.env.PORT || 4100;
 var MongoClient = require('mongodb').MongoClient;
 
 // API end points
@@ -123,6 +123,6 @@ function writeIntoDabase(req, res, db) {
 
 
 // start the server
-app.listen(port);
-console.log('Server started! At http://localhost:' + port);
+app.listen(PORT, () => console.log(`Listening on ${PORT}`))
+console.log('Server started! At post' + PORT);
 
