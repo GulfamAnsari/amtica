@@ -86,19 +86,21 @@ export class DashboardComponent {
 
   public submitTest() {
     this.allTests.push(this.questions);
-    this.loader.status = true;
-    this.loader.message = 'Saving... Please wait.';
-    this.http.post(this.url, this.allTests, { headers: { 'Content-Type': 'application/json' } })
-      .subscribe((data) => {
-        this.questions = [];
-        this.reset();
-        this.loader.status = true;
-        this.loader.message = 'You have succesfully added your paper';
-        console.log(this.allTests);
-      }, (err) => {
-        this.loader.status = true;
-        this.loader.message = 'Error while adding your paper';
-      });
+    this.questions = [];
+    this.reset();
+    // this.loader.status = true;
+    // this.loader.message = 'Saving... Please wait.';
+    // this.http.post(this.url, this.allTests, { headers: { 'Content-Type': 'application/json' } })
+    //   .subscribe((data) => {
+    //     this.questions = [];
+    //     this.reset();
+    //     this.loader.status = true;
+    //     this.loader.message = 'You have succesfully added your paper';
+    //     console.log(this.allTests);
+    //   }, (err) => {
+    //     this.loader.status = true;
+    //     this.loader.message = 'Error while adding your paper';
+    //   });
   }
 
   public showAllPapers() {

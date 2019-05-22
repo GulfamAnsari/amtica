@@ -53,7 +53,7 @@ function connectMongoDB(req, res) {
             addPaper(req, res, db)
         }
         else if (req.url == '/test-paper' && req.method == 'GET') {
-            addPaper(req, res, db)
+            fetchTests(req, res, db)
         }
     });
 }
@@ -65,6 +65,10 @@ function fetchDatabaseResults(req, res, db) {
         authenticateUser(req, dbResult, res)
         db.close();
     });
+}
+
+function fetchTests(req, res, db) {
+
 }
 
 function authenticateUser(req, dbResult, res) {
@@ -135,8 +139,7 @@ function writeIntoDabase(req, res, db) {
 //adding paper test
 function addPaper(req, res, db) {
     var dbo = db.db("amtica");
-    console.log(req.body);
-    dbo.collection("test").insertOne(req.body, (err, response) => {
+    dbo.collection("test").insertOne({ 'test': req.body }, (err, response) => {
         if (err) throw err;
         res.end(JSON.stringify(req.body));
         console.log("1 record inserted");
