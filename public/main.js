@@ -315,21 +315,22 @@ var DashboardComponent = /** @class */ (function () {
         this.reset();
     };
     DashboardComponent.prototype.submitTest = function () {
-        var _this = this;
         this.allTests.push(this.questions);
-        this.loader.status = true;
-        this.loader.message = 'Saving... Please wait.';
-        this.http.post(this.url, this.allTests, { headers: { 'Content-Type': 'application/json' } })
-            .subscribe(function (data) {
-            _this.questions = [];
-            _this.reset();
-            _this.loader.status = true;
-            _this.loader.message = 'You have succesfully added your paper';
-            console.log(_this.allTests);
-        }, function (err) {
-            _this.loader.status = true;
-            _this.loader.message = 'Error while adding your paper';
-        });
+        this.questions = [];
+        this.reset();
+        // this.loader.status = true;
+        // this.loader.message = 'Saving... Please wait.';
+        // this.http.post(this.url, this.allTests, { headers: { 'Content-Type': 'application/json' } })
+        //   .subscribe((data) => {
+        //     this.questions = [];
+        //     this.reset();
+        //     this.loader.status = true;
+        //     this.loader.message = 'You have succesfully added your paper';
+        //     console.log(this.allTests);
+        //   }, (err) => {
+        //     this.loader.status = true;
+        //     this.loader.message = 'Error while adding your paper';
+        //   });
     };
     DashboardComponent.prototype.showAllPapers = function () {
         this.showPapers = true;
