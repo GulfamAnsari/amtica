@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,8 +14,18 @@ export class DashboardComponent {
   public test;
   public questions = [];
   public showPapers = false;
+  public url = '';
+  public loader = {
+    status: false,
+    message: ''
+  };
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
+    if (window.location.hostname === 'localhost') {
+      this.url = 'http://localhost:4100/test-paper';
+    } else {
+      this.url = '/test-paper';
+    }
   }
 
   public logout() {
@@ -75,9 +86,19 @@ export class DashboardComponent {
 
   public submitTest() {
     this.allTests.push(this.questions);
-    this.questions = [];
-    this.reset();
-    console.log(this.allTests);
+    this.loader.status = true;
+    this.loader.message = 'Saving... Please wait.';
+    this.http.post(this.url, this.allTests, { headers: { 'Content-Type': 'application/json' } })
+      .subscribe((data) => {
+        this.questions = [];
+        this.reset();
+        this.loader.status = true;
+        this.loader.message = 'You have succesfully added your paper';
+        console.log(this.allTests);
+      }, (err) => {
+        this.loader.status = true;
+        this.loader.message = 'Error while adding your paper';
+      });
   }
 
   public showAllPapers() {

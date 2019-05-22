@@ -73,6 +73,8 @@
                         Question</button>
                     <button type="submit" style="float: right" (click)="submitTest()" class="btn btn-primary"
                         *ngIf="questions.length">Submit test</button>
+                    <br>
+                    <p *ngIf="loader.status">{{loader.message}}</p>
                 </div>
 
                 <!-- show all papers -->

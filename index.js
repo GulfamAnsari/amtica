@@ -27,6 +27,10 @@ app.post('/login', (req, res) => {
     connectMongoDB(req, res);
 });
 
+app.post('/test-paper', (req, res) => {
+    connectMongoDB(req, res);
+});
+
 app.post('/signup', (req, res) => {
     connectMongoDB(req, res);
 });
@@ -45,6 +49,11 @@ function connectMongoDB(req, res) {
             fetchDatabaseResults(req, res, db)
         } else if (req.url == '/signup') {
             writeIntoDabase(req, res, db)
+        } else if (req.url == '/test-paper' && req.method == 'POST') {
+            addPaper(req, res, db)
+        }
+        else if (req.url == '/test-paper' && req.method == 'GET') {
+            addPaper(req, res, db)
         }
     });
 }
@@ -83,7 +92,7 @@ function userInformation(userData) {
         'usertype': userData['usertype'],
         'loginData': Date()
     }
-    
+
     currectUser = userInfo;
     return userInfo;
 }
@@ -118,6 +127,19 @@ function writeIntoDabase(req, res, db) {
                 db.close();
             });
         }
+        db.close();
+    });
+}
+
+
+//adding paper test
+function addPaper(req, res, db) {
+    var dbo = db.db("amtica");
+    console.log(req.body);
+    dbo.collection("test").insertOne(req.body, (err, response) => {
+        if (err) throw err;
+        res.end(JSON.stringify(req.body));
+        console.log("1 record inserted");
         db.close();
     });
 }
