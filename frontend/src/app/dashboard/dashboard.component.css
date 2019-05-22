@@ -91,5 +91,29 @@
 
 .text-area {
   margin: 16px 0;
-  border: solid 1px snow;
+}
+
+button {
+  padding: 8px 16px;
+}
+
+input[type="text"] {
+  color: black;
+  width: 70%;
+  padding: 8px;
+}
+
+textarea {
+  color: black;
+  width: 70%;
+  padding: 8px;
+  height: 20vh;
+}
+
+.selected-paper {
+  cursor: pointer;
+}
+
+.selected-paper:hover {
+  color: yellowgreen;
 }

@@ -10,75 +10,97 @@
 <div class="container-fluid" style="background: #4D727E;">
     <div class="row">
         <div class="col-md-6 test-box">
-            <p>Create test paper</p>
-            <hr>
+            <h2>Create Test Paper</h2>
+            <br>
+            <p>This dashboard is for teachers to create the test papers.</p>
+            <br>
             <form>
                 <button (click)="addTest()" class="btn btn-primary">Add Test paper</button>
+                <button (click)="showAllPapers()" style="float: right" class="btn btn-primary">Show all papers</button>
                 <br>
-                <div class="col-md-12 text-area" *ngIf="test">
-                    <input style="color:black" name="name" type="text" placeholder="name of test paper" [(ngModel)]="test.name"><br>
-                    <br>
-                    <textarea [(ngModel)]="test.question" name="question" placeholder="Enter your question here"
-                        style="color: black"></textarea>
-                    <div *ngIf="test">
-                        <p>Is your question having multiple answers?</p>
-                        <label>
-                            <input type="radio" name="radioGroup" [checked]="!test.singleCorrect"
-                                (click)="multiple('yes')">
-                            yes
-                        </label>
-                        <label>
-                            <input type="radio" name="radioGroup" #radio [checked]="test.singleCorrect"
-                                (click)="multiple('no')"> no
-                        </label>
+                <div *ngIf="!showPapers">
+                    <div class="col-md-12 text-area" *ngIf="test">
+                        <ng-container *ngIf="questions.length === 0">
+                            <input style="color:black" name="name" type="text"
+                                placeholder="Enter name of question paper" [(ngModel)]="test.name">
+                        </ng-container>
+
                         <br>
-                        <button (click)="addOptions()" class="btn btn-primary">Add options</button>
                         <br>
-                        <label *ngFor="let option of test.options; let i = index">
-                            Answer {{i}}: <input [name]="i" [ngModelOptions]="{standalone: true}" type="text"
-                                style="color:black" [(ngModel)]="test.options[i]['text']">
+                        <textarea [(ngModel)]="test.question" name="question" placeholder="Enter your question here"
+                            style="color: black"></textarea>
+                        <div *ngIf="test">
                             <br>
-                        </label>
-                        <br>
-                        <p>Your Answer: </p>
-                        <div *ngIf="test.singleCorrect">
-                            <label *ngFor="let option of test.options; let i = index">
-                                <input type="radio" id="{{i}}" name="radioGroup2" (click)="answers(option, i)">{{i}}
+                            <p>Is your question having multiple answers?</p>
+                            <label style="margin: 4px 16px 0 0">
+                                <input type="radio" name="radioGroup" [checked]="!test.singleCorrect"
+                                    (click)="multiple('yes')">
+                                yes
+                            </label>
+                            <label>
+                                <input type="radio" name="radioGroup" #radio [checked]="test.singleCorrect"
+                                    (click)="multiple('no')"> no
+                            </label>
+                            <br>
+                            <br>
+                            <button (click)="addOptions()" class="btn btn-primary">Add options</button>
+                            <br>
+                            <label style="padding: 16px 0;" *ngFor="let option of test.options; let i = index">
+                                Answer {{i}}: <input [name]="i" [ngModelOptions]="{standalone: true}" type="text"
+                                    style="color:black" [(ngModel)]="test.options[i]['text']">
                                 <br>
                             </label>
-                        </div>
-                        <div *ngIf="!test.singleCorrect">
-                            <label *ngFor="let option of test.options; let i = index">
-                                <input type="checkbox" id="checkbox{{i}}" name="checkbox"
-                                    (click)="answers(option, i)">{{i}}
-                                <br>
-                            </label>
+                            <br>
+                            <br>
+                            <p>Your Answer: </p>
+                            <div *ngIf="test.singleCorrect">
+                                <label style="margin: 4px 16px 0 0" *ngFor="let option of test.options; let i = index">
+                                    <input type="radio" id="{{i}}" name="radioGroup2" (click)="answers(option, i)">
+                                    {{i}}
+                                    <br>
+                                </label>
+                            </div>
+                            <div *ngIf="!test.singleCorrect">
+                                <label style="margin: 4px 16px 0 0" *ngFor="let option of test.options; let i = index">
+                                    <input type="checkbox" id="checkbox{{i}}" name="checkbox"
+                                        (click)="answers(option, i)"> {{i}}
+                                    <br>
+                                </label>
+                            </div>
                         </div>
                     </div>
+                    <button type="submit" (click)="submit()" class="btn btn-primary" *ngIf="test">Add
+                        Question</button>
+                    <button type="submit" style="float: right" (click)="submitTest()" class="btn btn-primary"
+                        *ngIf="questions.length">Submit test</button>
                 </div>
-                <br>
-                <button type="submit" (click)="submit()" class="btn btn-primary" [disabled]="!test">Add
-                    Question</button>
-                <br>
-                <br>
-                <button type="submit" (click)="submitTest()" class="btn btn-primary"
-                    [disabled]="!questions.length">Submit test</button>
+
+                <!-- show all papers -->
+                <div *ngIf="showPapers">
+                    <ng-container>
+                        <br>
+                        <p *ngIf="allTests.length === 0">There is no test paper yet</p>
+                        <p *ngIf="allTests.length > 0">Click the test paper to more details</p>
+                        <ol style="padding: 16px">
+                            <li class="selected-paper" *ngFor="let test of allTests; let i=index"
+                                (click)="selectedPaper(i)">{{test[0].name}}</li>
+                        </ol>
+                    </ng-container>
+                </div>
             </form>
         </div>
         <div class="col-md-6 test-box">
             <div *ngFor="let question of questions; let i = index">
                 <div *ngIf="i===0">
-                    {{question | json}}
-                <p>Your question in {{question.name}}</p>
-                <hr>
-            </div>
+                    <h2>Your question in {{question.name}}</h2>
+                </div>
+                <br>
                 <p>Question {{i}}: {{question.question}}</p>
                 <ol style="margin: 0 20px;">
                     <li *ngFor="let option of question.options">{{option.text}}</li>
                 </ol>
                 <br>
             </div>
-            <hr>
         </div>
     </div>
 </div>

@@ -12,6 +12,7 @@ export class DashboardComponent {
   public allTests = [];
   public test;
   public questions = [];
+  public showPapers = false;
 
   constructor(private router: Router) {
   }
@@ -21,7 +22,7 @@ export class DashboardComponent {
     this.router.navigate(['/login']);
   }
 
-  public addTest() {
+  public reset() {
     this.test = {
       question: '',
       name: '',
@@ -29,6 +30,12 @@ export class DashboardComponent {
       options: [],
       answers: []
     };
+  }
+
+  public addTest() {
+    this.questions = [];
+    this.showPapers = false;
+    this.reset();
   }
 
   public multiple(value) {
@@ -63,13 +70,21 @@ export class DashboardComponent {
 
   public submit() {
     this.questions.push(this.test);
-    this.addTest();
-    console.log(this.test);
+    this.reset();
   }
 
   public submitTest() {
     this.allTests.push(this.questions);
     this.questions = [];
-    this.addTest();
+    this.reset();
+    console.log(this.allTests);
+  }
+
+  public showAllPapers() {
+    this.showPapers = true;
+  }
+
+  public selectedPaper(i) {
+    this.questions = this.allTests[i];
   }
 }
